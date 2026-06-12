@@ -22,7 +22,7 @@
 - [x] ADR-003: LUN Group trade-off
 - [x] ADR-004: Datastore signature on DR mount
 - [x] ADR-005: NMP PSP Round Robin for PowerStore
-- [ ] ADR-006: CDP for critical workloads only
+- [x] ADR-006: CDP for critical workloads only
 - [ ] Network design document
 - [ ] Storage design document
 - [ ] Veeam CDP design document

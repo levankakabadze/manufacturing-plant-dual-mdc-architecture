@@ -19,7 +19,7 @@
 ## Phase 2 — Architecture Documentation
 - [x] ADR-001: Active/Passive MDC design
 - [x] ADR-002: Synchronous block replication
-- [ ] ADR-003: LUN Group trade-off
+- [x] ADR-003: LUN Group trade-off
 - [ ] ADR-004: Datastore signature on DR mount
 - [ ] ADR-005: NMP PSP Round Robin for PowerStore
 - [ ] ADR-006: CDP for critical workloads only

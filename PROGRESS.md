@@ -21,7 +21,7 @@
 - [x] ADR-002: Synchronous block replication
 - [x] ADR-003: LUN Group trade-off
 - [x] ADR-004: Datastore signature on DR mount
-- [ ] ADR-005: NMP PSP Round Robin for PowerStore
+- [x] ADR-005: NMP PSP Round Robin for PowerStore
 - [ ] ADR-006: CDP for critical workloads only
 - [ ] Network design document
 - [ ] Storage design document

@@ -17,7 +17,7 @@
 - [x] Create PROGRESS.md (this file)
 
 ## Phase 2 — Architecture Documentation
-- [ ] ADR-001: Active/Passive MDC design
+- [x] ADR-001: Active/Passive MDC design
 - [ ] ADR-002: Synchronous block replication
 - [ ] ADR-003: LUN Group trade-off
 - [ ] ADR-004: Datastore signature on DR mount

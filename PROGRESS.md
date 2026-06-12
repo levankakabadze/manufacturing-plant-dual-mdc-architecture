@@ -14,7 +14,7 @@
 - [x] Write README.md
 - [x] Create folder structure
 - [x] First real commit
-- [ ] Create PROGRESS.md (this file)
+- [x] Create PROGRESS.md (this file)
 
 ## Phase 2 — Architecture Documentation
 - [ ] ADR-001: Active/Passive MDC design

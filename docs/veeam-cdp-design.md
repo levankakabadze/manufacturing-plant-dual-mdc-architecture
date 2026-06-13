@@ -174,12 +174,14 @@ with no unprotected window:
 
 ### Job Structure
 
+Backup jobs are organized by workload type — not a single job for all VMs.
+This allows different retention, scheduling, and application-aware settings
+per workload group.
+
 | Parameter | Value |
 |---|---|
-| Job name | BKP-[SITECODE]-ALL-VMs |
-| Scope | All VMs in the environment |
-| Repository | SOBR (DG1_VOL0 + DG2_VOL0, ReFS 64K) |
-| Retention | 14 restore points |
+| Job naming convention | BKP-[SITECODE]-[WORKLOAD] |
+| Repository | SOBR-[SITECODE] (DG1_VOL0 + DG2_VOL0, ReFS 64K) |
 | Schedule | Daily incremental at 22:00 |
 | Weekly full | Synthetic full — Saturday 22:00 |
 | Compression | Optimal |
@@ -187,16 +189,29 @@ with no unprotected window:
 | Storage optimization | Local target (16TB+) |
 | Guest indexing | Disabled |
 
+### Example Job Layout
+
+| Job Name | Scope | Retention | App-Aware |
+|---|---|---|---|
+| BKP-[SITECODE]-MES | MES VMs | 14 restore points | Confirm with MES vendor |
+| BKP-[SITECODE]-SQL | SQL Server VMs | 14 restore points | ✓ Enabled |
+| BKP-[SITECODE]-INFRA | DC, AD, DHCP VMs | 14 restore points | ✓ Enabled |
+| BKP-[SITECODE]-PROD | Production VMs | 14 restore points | — |
+| BKP-[SITECODE]-FS | File server | 14 restore points | — |
+
+> Job count and scope vary per site depending on VM count and workload
+> classification. Retention is defined per site based on business requirements.
+> 14 restore points (2 weeks daily) is the standard baseline.
+
 ### Application-Aware Processing
 
 | VM Type | App-Aware | Reason |
 |---|---|---|
 | SQL Server VMs | ✓ Enabled | Transaction log truncation, VSS-consistent backup |
 | Domain Controllers | ✓ Enabled | AD-aware VSS writer |
-| MES VMs | Confirm with vendor | Some MES vendors do not support VSS quiescing |
+| MES VMs | Confirm with vendor | VSS support varies by MES vendor |
 | File server | — Disabled | Not required for file-level backup |
 
----
 
 ## SOBR Configuration
 

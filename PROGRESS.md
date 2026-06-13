@@ -24,7 +24,7 @@
 - [x] ADR-005: NMP PSP Round Robin for PowerStore
 - [x] ADR-006: CDP for critical workloads only
 - [ ] Network design document
-- [ ] Storage design document
+- [x] Storage design document
 - [ ] Veeam CDP design document
 - [ ] Architecture diagrams
 - [ ] Architecture overview document

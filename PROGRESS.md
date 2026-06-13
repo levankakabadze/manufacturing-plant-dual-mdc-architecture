@@ -23,7 +23,7 @@
 - [x] ADR-004: Datastore signature on DR mount
 - [x] ADR-005: NMP PSP Round Robin for PowerStore
 - [x] ADR-006: CDP for critical workloads only
-- [ ] Network design document
+- [x] Network design document
 - [x] Storage design document
 - [ ] Veeam CDP design document
 - [ ] Architecture diagrams

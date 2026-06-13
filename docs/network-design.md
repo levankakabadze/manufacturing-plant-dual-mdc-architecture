@@ -82,8 +82,8 @@ vMotion, production, CDP/backup, and management. All connections are 10GbE.
 
 | NIC | Connected To | Speed | Traffic Type | VLAN |
 |---|---|---|---|---|
-| vmnic0 | Core-SW Stack-1 | 10G | Management VMkernel | VLAN 100 |
-| vmnic1 | Core-SW Stack-2 | 10G | Management VMkernel | VLAN 100 |
+| vmnic0 | Core-SW Stack-1 | 1G | Management VMkernel | VLAN 100 |
+| vmnic1 | Core-SW Stack-2 | 1G | Management VMkernel | VLAN 100 |
 | vmnic2 | Core-SW Stack-1 | 10G | vMotion VMkernel | VLAN 200 |
 | vmnic3 | Core-SW Stack-2 | 10G | vMotion VMkernel | VLAN 200 |
 | vmnic4 | Core-SW Stack-1 | 10G | VM Production portgroups | Trunk |
@@ -154,8 +154,8 @@ stack with dedicated interfaces per traffic type.
 
 | Interface | Connected To | Speed | Purpose | VLAN |
 |---|---|---|---|---|
-| Team_VLAN_MGMT NIC1 | Core-SW Stack-1 | 10G | Management (teamed) | VLAN 100 |
-| Team_VLAN_MGMT NIC2 | Core-SW Stack-2 | 10G | Management (teamed) | VLAN 100 |
+| Team_VLAN_MGMT NIC1 | Core-SW Stack-1 | 1G | Management (teamed) | VLAN 100 |
+| Team_VLAN_MGMT NIC2 | Core-SW Stack-2 | 1G | Management (teamed) | VLAN 100 |
 | Team_VLAN_DATA NIC1 | Core-SW Stack-1 | 10G | Backup/CDP data (teamed) | VLAN 400 |
 | Team_VLAN_DATA NIC2 | Core-SW Stack-2 | 10G | Backup/CDP data (teamed) | VLAN 400 |
 | iDRAC | Core-SW Stack-1 | 1G | Out-of-band management | VLAN 100 |

@@ -20,7 +20,7 @@ to the PowerStore array. No FC fabric switch is used.
 | Drives | 9x NVMe SSD TLC |
 | Host Connectivity | Fibre Channel — direct connect, no FC fabric |
 | Storage Protocol | SCSI over FC |
-| Replication Link | 2x10GbE SFP+ dedicated — MDC1 PowerStore → MDC2 PowerStore |
+| Replication Link | 2x10GbE SFP+ — MDC1 PowerStore → MDC2 PowerStore via port channel |
 | ESXi Hosts | Dell PowerEdge R660xs — 2 per MDC |
 | HBA Configuration | Single dual-port HBA → 2 paths per host (FC1→Node A, FC2→Node B) |
 
@@ -154,13 +154,15 @@ The Veeam Backup & Replication server runs on a dedicated Windows server in MDC2
 
 ### Physical Disk Configuration
 
-| RAID Group | RAID Level | Disks | Hot Spare |
-|---|---|---|---|
-| DG1 | RAID 5 | 5 total (4 active + 1 hot spare) | 1 |
-| DG2 | RAID 5 | 5 total (4 active + 1 hot spare) | 1 |
+| RAID Group | RAID Level | Disks | Hot Spare | Controller Settings |
+|---|---|---|---|---|
+| DG1 | RAID 5 | 5 total (4 active + 1 hot spare) | 1 | 256KB stripe, Write Back |
+| DG2 | RAID 5 | 5 total (4 active + 1 hot spare) | 1 | 256KB stripe, Write Back |
 
 > Usable capacity per RAID group depends on disk size selected at each site.
-> Size to accommodate full backup retention plus CDP journal requirements.
+> Size to accommodate full backup job retention requirements for all protected VMs.
+> CDP replica data and journal are stored on dedicated MDC2 PowerStore volumes —
+> not on the Veeam backup server.
 
 ### Volume Layout
 
@@ -169,12 +171,14 @@ The Veeam Backup & Replication server runs on a dedicated Windows server in MDC2
 | DG1_VOL0 | ReFS | SOBR Extent 1 |
 | DG2_VOL0 | ReFS | SOBR Extent 2 |
 | SOBR (M:) | Mount point | Windows mount point presenting SOBR extents to Veeam |
-| SQL (S:) | NTFS | Veeam SQL database |
-| Data (D:) | NTFS | Veeam configuration data |
+| SQL (S:) | NTFS | PostgreSQL 17 database
+| Data (D:) | NTFS | Veeam logs and guest file catalog |
 
 ReFS is used for SOBR extents because Veeam leverages ReFS block cloning for
 fast synthetic full backups and instant VM recovery without additional I/O
-overhead.
+overhead. ReFS volumes should be formatted with a 64K cluster size — this is
+the Veeam-recommended block size for SOBR extents and ensures optimal
+performance for large sequential backup writes.
 
 ### Veeam Server Network
 
@@ -186,24 +190,46 @@ overhead.
 
 ---
 
-## Replication Architecture
+## Replication Network Architecture
+
+Replication traffic flows through the core switch infrastructure via dedicated
+port channels on VLAN 1080. Both PowerStore arrays are configured with bond0
+on their mezzanine cards, bonding two 10GbE ports into a single logical
+interface. The core switches are configured with matching port channels on the
+replication-facing ports.
 
 ```
-MDC1 PowerStore                          MDC2 PowerStore
-──────────────────                       ──────────────────
-PLANT_LUN_MES      ──── sync repl ────► PLANT_LUN_MES (read-only)
-PLANT_LUN_FS       ──── sync repl ────► PLANT_LUN_FS (read-only)
-PLANT_LUN_00       ──── sync repl ────► PLANT_LUN_00 (read-only)
-PLANT_LUN_01       ──── sync repl ────► PLANT_LUN_01 (read-only)
-
-                                         PLANT_LUN_CDP_MES (read/write)
-                                         PLANT_LUN_CDP_APPS (read/write)
-                                         PLANT_LUN_PRD_INFRA (read/write)
+MDC1 PowerStore (bond0 — 2x10GbE mezzanine)
+    → MDC1 Core Switch (Port-channel — trunk VLAN 1080)
+        → inter-switch trunk
+            → MDC2 Core Switch (Port-channel — trunk VLAN 1080)
+                → MDC2 PowerStore (bond0 — 2x10GbE mezzanine)
 ```
 
-Replication traffic uses dedicated 2x10GbE SFP+ ports on both PowerStore arrays —
-separate from management ports and host FC connectivity. This ensures replication
-bandwidth does not compete with production storage I/O.
+Each PowerStore node (Node A and Node B) connects to both core switches for
+redundancy — a single switch failure does not interrupt replication.
+
+### Reference Switch Configuration (generic)
+
+```
+interface Port-channelX
+ description PowerStore Replication
+ switchport trunk allowed vlan 1080
+ switchport mode trunk
+```
+
+VLAN 1080 is dedicated exclusively to PowerStore replication traffic — no
+other workloads share this VLAN.
+
+### CDP and Backup Traffic
+
+CDP and backup traffic also uses 2x10GbE links between MDCs but without LACP
+or port channel — individual links are used intentionally to reduce complexity
+for plant IT teams. A link failure on the CDP path is immediately visible and
+easy to diagnose without requiring knowledge of port channel troubleshooting.
+
+See [ADR-006](adr/ADR-006-cdp-critical-workloads-only.md) and the network
+design document for full details.
 
 ---
 

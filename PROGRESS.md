@@ -25,7 +25,7 @@
 - [x] ADR-006: CDP for critical workloads only
 - [x] Network design document
 - [x] Storage design document
-- [ ] Veeam CDP design document
+- [x] Veeam CDP design document
 - [ ] Architecture diagrams
 - [ ] Architecture overview document
 

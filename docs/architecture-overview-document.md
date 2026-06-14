@@ -326,7 +326,8 @@ The infrastructure operates across two teams with clearly defined boundaries:
 | Storage | Storage Team | PowerStore LUN management, replication, snapshots |
 | Backup & DR | Backup Team | Veeam jobs, CDP policies, restore operations, DR runbook |
 | Plant IT | Local IT Team | Day-to-day monitoring, first-line response, DR execution |
-Firewall policy is managed exclusively by the network team — infrastructure
+
+Firewall policy is managed exclusively by the security team — infrastructure
 team configures switching and above.
 
 ### 5.2 Day-to-Day Monitoring

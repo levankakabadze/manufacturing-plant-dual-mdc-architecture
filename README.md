@@ -21,6 +21,13 @@ with synchronous storage replication running continuously.
 | IaC | Terraform — vSphere provider |
 
 ---
+## 📊 Architecture Diagrams
+
+### Dual-MDC Topology
+![Dual-MDC Topology](diagrams/dual-mdc-topology.png)
+
+### ESXi & Storage Connectivity
+![ESXi Storage Connectivity](diagrams/esxi-storage-switch-connectivity.png)
 
 ## 🎯 Design Goals
 

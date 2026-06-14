@@ -328,8 +328,34 @@ The infrastructure operates across two teams with clearly defined boundaries:
 | DR Execution | Joint — All Teams | Storage Team: PowerStore LUN failover, Virtualization Team: ESXi and vCenter, Backup Team: Veeam job re-registration, Plant IT: local coordination and verification |
 | Plant IT | Local IT Team | Day-to-day monitoring, first-line response, escalation |
 
-Firewall policy is managed exclusively by the security team — infrastructure
+Firewall policy is managed exclusively by the network team — infrastructure
 team configures switching and above.
+
+DR execution is a coordinated effort across all teams — no single team owns
+the full procedure. The DR runbook defines the sequence and assigns each
+step to the responsible team. See
+[docs/runbooks/dr-failover.md](runbooks/dr-failover.md).
+
+
+### 5.1.1 Incident Commander
+
+All DR events must be declared and coordinated by the **IT Infrastructure
+Manager**. No failover steps may be initiated without explicit authorization
+from the Incident Commander.
+
+The Incident Commander is responsible for:
+
+- Declaring the DR event and notifying all teams
+- Authorizing each phase of the failover sequence
+- Making the rollback decision if failover causes unexpected issues
+- Declaring the DR event closed once production is restored
+- Ensuring post-DR tasks are completed — including Veeam backup job
+  re-registration and replication session restoration
+
+In the absence of the IT Infrastructure Manager, a designated deputy
+must be named in advance. The DR runbook must never be executed without
+an identified Incident Commander.
+
 
 ### 5.2 Day-to-Day Monitoring
 

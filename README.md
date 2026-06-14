@@ -29,6 +29,9 @@ with synchronous storage replication running continuously.
 ### ESXi & Storage Connectivity
 ![ESXi Storage Connectivity](diagrams/esxi-storage-switch-connectivity.png)
 
+### Veeam CDP Data Path
+![Veeam CDP Data Path](diagrams/veeam-cdp-data-path.png)
+
 ## 🎯 Design Goals
 
 - **RTO near-zero** — DR cluster ready to receive workloads within minutes of MDC1 failure

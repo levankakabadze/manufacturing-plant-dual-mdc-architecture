@@ -23,10 +23,12 @@ with synchronous storage replication running continuously.
 ---
 ## 📊 Architecture Diagrams
 
-![Dual-MDC Topology](https://raw.githubusercontent.com/levankakabadze/manufacturing-plant-dual-mdc-architecture/main/diagrams/dual-mdc-topology.png)
+### Dual-MDC Topology
+![Dual-MDC Topology](diagrams/dual-mdc-topology.png)
 
 ### ESXi & Storage Connectivity
-![ESXi Storage Connectivity](https://raw.githubusercontent.com/levankakabadze/manufacturing-plant-dual-mdc-architecture/main/diagrams/esxi-storage-switch-connectivity.png)
+![ESXi Storage Connectivity](diagrams/esxi-storage-switch-connectivity.png)
+
 ## 🎯 Design Goals
 
 - **RTO near-zero** — DR cluster ready to receive workloads within minutes of MDC1 failure

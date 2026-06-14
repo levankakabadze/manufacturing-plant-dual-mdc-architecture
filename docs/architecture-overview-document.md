@@ -426,3 +426,81 @@ non-critical LUN and coordinate with plant operations team on timing.
 
 → Full procedure: [docs/runbooks/dr-failover.md](runbooks/dr-failover.md)
 → Rollback procedure: [docs/runbooks/dr-rollback.md](runbooks/dr-rollback.md)
+
+
+## 6. Document Map
+
+This repository is organized so that each document has a single clear purpose.
+Start with this overview, then follow the links below based on what you need.
+
+### 6.1 Architecture & Design
+
+| Document | Purpose |
+|---|---|
+| [docs/architecture-overview.md](architecture-overview.md) | This document — full architecture narrative and design philosophy |
+| [docs/network-design.md](network-design.md) | VLAN design, switch topology, ESXi NIC layout, inter-MDC connectivity |
+| [docs/storage-design.md](storage-design.md) | LUN layout, FC connectivity, replication architecture, Veeam server storage |
+| [docs/veeam-cdp-design.md](veeam-cdp-design.md) | CDP policy configuration, backup job structure, SOBR design |
+| [docs/backup-policy.md](backup-policy.md) | GFS retention, compliance requirements, cloud backup — in progress |
+
+### 6.2 Architecture Decision Records
+
+Each ADR documents one design decision — the context, options considered,
+decision made, and consequences. Read these to understand why the
+architecture is designed the way it is, not just what it does.
+
+| Document | Decision |
+|---|---|
+| [ADR-001](adr/ADR-001-active-passive-mdc-design.md) | Why active/passive MDC design over active/active |
+| [ADR-002](adr/ADR-002-synchronous-block-replication.md) | Why PowerStore synchronous replication plus Veeam CDP |
+| [ADR-003](adr/ADR-003-lun-group-trade-off.md) | Why per-LUN replication over LUN groups |
+| [ADR-004](adr/ADR-004-datastore-signature-on-dr-mount.md) | Why assign new signature on datastore mount during DR |
+| [ADR-005](adr/ADR-005-nmp-psp-round-robin-powerstore.md) | Why VMW_PSP_RR for Dell PowerStore 500T |
+| [ADR-006](adr/ADR-006-cdp-critical-workloads-only.md) | Why CDP is applied to MES, EDI, SQL only |
+
+### 6.3 Operational Runbooks
+
+Step-by-step procedures for DR and recovery operations. Written for
+execution under pressure — each step is explicit and unambiguous.
+
+| Document | Purpose |
+|---|---|
+| [docs/runbooks/dr-failover.md](runbooks/dr-failover.md) | Full MDC1 failure — failover all production VMs to MDC2 |
+| [docs/runbooks/dr-rollback.md](runbooks/dr-rollback.md) | Rollback production from MDC2 back to MDC1 after DR event |
+| [docs/runbooks/cdp-failover.md](runbooks/cdp-failover.md) | Single critical VM failure — CDP failover for MES, EDI, SQL |
+| [docs/runbooks/prerequisites-checklist.md](runbooks/prerequisites-checklist.md) | Pre-deployment checklist for new plant site deployment |
+
+### 6.4 Diagrams
+
+Visual representations of the architecture. Each diagram is committed as
+both source file (draw.io XML) and exported PNG.
+
+| Diagram | Purpose |
+|---|---|
+| [diagrams/dual-mdc-topology.png](../diagrams/) | Full dual-MDC physical and logical topology |
+| [diagrams/storage-replication-flow.png](../diagrams/) | PowerStore synchronous replication flow MDC1 → MDC2 |
+| [diagrams/veeam-cdp-data-path.png](../diagrams/) | Veeam CDP data path and proxy placement |
+| [diagrams/protection-layers.png](../diagrams/) | Four-layer protection model overview |
+
+### 6.5 Infrastructure as Code
+
+| Location | Purpose |
+|---|---|
+| [terraform/vsphere/](../terraform/vsphere/) | vSphere provider — port groups, VMs, datastores as code |
+| [terraform/modules/](../terraform/modules/) | Reusable Terraform modules |
+
+---
+
+## 7. Related Resources
+
+- [Veeam CDP Documentation](https://helpcenter.veeam.com/docs/backup/vsphere/cdp_replication.html)
+- [Dell PowerStore Replication Guide](https://www.dell.com/support/home/en-us/product-support/product/powerstore-500t/docs)
+- [VMware vSphere NMP Documentation](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-storage/GUID-DB20E65C-9B59-474F-BC69-2063A2571ED1.html)
+- [Veeam Best Practices](https://bp.veeam.com/vbr/)
+
+---
+
+*All hostnames, IP addresses, site names, and company identifiers in this
+repository are generic and do not represent any specific production
+environment. This repository is a reference architecture based on real
+production experience.*

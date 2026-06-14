@@ -324,8 +324,9 @@ The infrastructure operates across two teams with clearly defined boundaries:
 | Core switching | Network Team | VLAN design, port configuration, inter-MDC trunks |
 | Compute & Virtualization | Virtualization Team | ESXi, vCenter, vDS, HA/DRS, VM provisioning |
 | Storage | Storage Team | PowerStore LUN management, replication, snapshots |
-| Backup & DR | Backup Team | Veeam jobs, CDP policies, restore operations, DR runbook |
-| Plant IT | Local IT Team | Day-to-day monitoring, first-line response, DR execution |
+| Backup & DR | Backup Team | Veeam jobs, CDP policies, restore operations |
+| DR Execution | Joint — All Teams | Storage Team: PowerStore LUN failover, Virtualization Team: ESXi and vCenter, Backup Team: Veeam job re-registration, Plant IT: local coordination and verification |
+| Plant IT | Local IT Team | Day-to-day monitoring, first-line response, escalation |
 
 Firewall policy is managed exclusively by the security team — infrastructure
 team configures switching and above.

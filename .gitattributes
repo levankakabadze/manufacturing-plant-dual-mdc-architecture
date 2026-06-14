@@ -1,0 +1,8 @@
+﻿# Binary files — never apply line ending normalization
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.xlsx binary
+*.docx binary

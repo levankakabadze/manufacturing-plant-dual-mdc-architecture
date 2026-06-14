@@ -318,16 +318,14 @@ Failure detected
 ### 5.1 Responsibilities
 
 The infrastructure operates across two teams with clearly defined boundaries:
-
 | Domain | Responsible Team | Scope |
 |---|---|---|
 | Network perimeter | Network Team | FortiGate firewall policy, NAT, external routing |
-| Core switching | IT Infrastructure | VLAN design, port configuration, inter-MDC trunks |
-| Compute | IT Infrastructure | ESXi, vCenter, vDS, HA/DRS, VM provisioning |
-| Storage | IT Infrastructure | PowerStore LUN management, replication, snapshots |
-| Backup & CDP | IT Infrastructure | Veeam jobs, CDP policies, restore operations |
-| Plant IT | Local IT Team | Day-to-day monitoring, first-line response, DR runbook execution |
-
+| Core switching | Network Team | VLAN design, port configuration, inter-MDC trunks |
+| Compute & Virtualization | Virtualization Team | ESXi, vCenter, vDS, HA/DRS, VM provisioning |
+| Storage | Storage Team | PowerStore LUN management, replication, snapshots |
+| Backup & DR | Backup Team | Veeam jobs, CDP policies, restore operations, DR runbook |
+| Plant IT | Local IT Team | Day-to-day monitoring, first-line response, DR execution |
 Firewall policy is managed exclusively by the network team — infrastructure
 team configures switching and above.
 

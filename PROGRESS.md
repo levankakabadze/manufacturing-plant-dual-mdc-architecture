@@ -26,8 +26,9 @@
 - [x] Network design document
 - [x] Storage design document
 - [x] Veeam CDP design document
+- [ ] Backup policy document (GFS, cloud backup — Q3 2026)
 - [ ] Architecture diagrams
-- [ ] Architecture overview document
+- [x] Architecture overview document
 
 ## Phase 3 — Operational Runbooks
 - [ ] DR Failover runbook

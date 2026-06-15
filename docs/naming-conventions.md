@@ -225,8 +225,8 @@ A complete GEBTM site deployment would include:
 | GEBTMPST0001 | Dell PowerStore 500T | MDC1 |
 | GEBTMPST0002 | Dell PowerStore 500T | MDC2 |
 | GEBTMVBR0001 | Veeam B&R server | MDC2 |
-| GEBTMSW0001 | Core switch stack | MDC1 |
-| GEBTMSW0002 | Core switch stack | MDC2 |
+| GEBTMROU0001 | Core switch stack | MDC |
+| GEBTMSW0002 | Access switch stack | PRD |
 | GEBTMFW0001 | FortiGate 200F | MDC1 |
 | GEBTMFW0002 | FortiGate 200F | MDC2 |
 | GEBTMCLS0001 | vCenter cluster | MDC1 production |

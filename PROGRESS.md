@@ -29,6 +29,7 @@
 - [ ] Backup policy document (GFS, cloud backup — Q3 2026)
 - [x] Architecture diagrams
 - [x] Architecture overview document
+- [x] Naming Convention Document
 
 ## Phase 3 — Operational Runbooks
 - [ ] DR Failover runbook

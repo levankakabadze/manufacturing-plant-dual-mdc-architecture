@@ -1,10 +1,41 @@
+# Data Sources
+data "vsphere_datacenter" "dc" {
+  name = var.datacenter
+}
+
+data "vsphere_compute_cluster" "cluster" {
+  name          = var.cluster
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
+data "vsphere_datastore" "datastore" {
+  name          = var.datastore
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
+data "vsphere_network" "network" {
+  name          = var.network
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
+data "vsphere_resource_pool" "pool" {
+  name          = "${var.cluster}/Resources"
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
+data "vsphere_virtual_machine" "template" {
+  name          = var.template
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
+# VM Resource
 resource "vsphere_virtual_machine" "vm" {
   name             = var.vm_name
   resource_pool_id = data.vsphere_resource_pool.pool.id
   datastore_id     = data.vsphere_datastore.datastore.id
 
-  num_cpus = 4
-  memory   = 8192
+  num_cpus = var.vm_cpu
+  memory   = var.vm_memory
   guest_id = data.vsphere_virtual_machine.template.guest_id
 
   network_interface {
@@ -25,7 +56,7 @@ resource "vsphere_virtual_machine" "vm" {
     customize {
       linux_options {
         host_name = var.vm_name
-        domain    = "msas.local"
+        domain    = var.vm_domain
       }
 
       network_interface {

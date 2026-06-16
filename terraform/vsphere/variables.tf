@@ -63,4 +63,26 @@ variable "vm_dns_servers" {
     type        = list(string)
 }
 
+variable "template" {
+  description = "VM template name to clone from"
+  type        = string
+}
+
+variable "vm_cpu" {
+  description = "Number of vCPUs"
+  type        = number
+  default     = 4
+}
+
+variable "vm_memory" {
+  description = "Memory in MB"
+  type        = number
+  default     = 8192
+}
+
+variable "vm_domain" {
+  description = "Domain name for the VM"
+  type        = string
+  default     = "plant.local"
+}
 

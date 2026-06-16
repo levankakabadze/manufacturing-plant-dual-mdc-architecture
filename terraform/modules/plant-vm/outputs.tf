@@ -1,19 +1,19 @@
 output "vm_name" {
   description = "Name of the deployed virtual machine"
-  value       = module.plant_vm.vm_name
+  value       = vsphere_virtual_machine.vm.name
 }
 
 output "vm_ip_address" {
   description = "IP address of the deployed virtual machine"
-  value       = module.plant_vm.vm_ip_address
+  value       = vsphere_virtual_machine.vm.default_ip_address
 }
 
 output "vm_id" {
   description = "vSphere ID of the deployed virtual machine"
-  value       = module.plant_vm.vm_id
+  value       = vsphere_virtual_machine.vm.id
 }
 
 output "vm_uuid" {
   description = "UUID of the deployed virtual machine"
-  value       = module.plant_vm.vm_uuid
+  value       = vsphere_virtual_machine.vm.uuid
 }

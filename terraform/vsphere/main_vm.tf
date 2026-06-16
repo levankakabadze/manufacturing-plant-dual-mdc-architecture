@@ -1,5 +1,5 @@
 resource "vsphere_virtual_machine" "vm" {
-  name             = "TRGLKVM0001"
+  name             = var.vm_name
   resource_pool_id = data.vsphere_resource_pool.pool.id
   datastore_id     = data.vsphere_datastore.datastore.id
 
@@ -21,5 +21,20 @@ resource "vsphere_virtual_machine" "vm" {
 
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
+
+    customize {
+      linux_options {
+        host_name = var.vm_name
+        domain    = "msas.local"
+      }
+
+      network_interface {
+        ipv4_address = var.vm_ip_address
+        ipv4_netmask = var.vm_netmask
+      }
+
+      ipv4_gateway    = var.vm_gateway
+      dns_server_list = var.vm_dns_servers
+    }
   }
 }

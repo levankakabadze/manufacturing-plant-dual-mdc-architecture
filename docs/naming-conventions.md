@@ -45,6 +45,7 @@ any management interface.
 | PVT | Dell PowerVault array | GEBTMPVT0001 |
 | LDE | Lenovo DE Series array | GEBTMLDE0001 |
 | SW | Network core switch (stack) | GEBTMSW0001 |
+| VDS| vSphere Distributed Switch | GEBTMVDS0001 |
 | FW | Firewall | GEBTMFW0001 |
 
 ---
@@ -68,18 +69,69 @@ with a `-MGMT` suffix — they are not assigned a separate service code.
 
 ---
 
-## vCenter Clusters
+## vSphere Network — vDS and VLANs
 
-Clusters follow the standard naming format. By convention:
-- `CLS0001` — Production cluster (MDC1)
-- `CLS0002` — DR cluster (MDC2)
+### vDS Naming
 
-| Cluster | Role |
+One distributed switch spans both MDCs per site. During DR failover, VMs
+on MDC2 connect to the same port groups and VLAN mappings — no network
+reconfiguration required.
+
+| Name | Role |
 |---|---|
-| GEBTMCLS0001 | Production — MDC1 primary workloads |
-| GEBTMCLS0002 | DR — MDC2 failover target |
+| GEBTMVDS0001 | Site-wide distributed switch — spans MDC1 and MDC2 |
 
 ---
+
+### Port Group Naming
+
+Two types of port groups exist on the vDS — VMkernel port groups for host
+traffic, and VM port groups for virtual machine traffic.
+
+```
+VMkernel:  dvPG-[VLAN_ID]-[PURPOSE]-VMK
+VM:        dvPG-[VLAN_ID]-[PURPOSE]
+```
+
+| Port Group Name | VLAN ID | Purpose |
+|---|---|---|
+| dvPG-200-VMOT-VMK | 200 | vMotion VMkernel (vmk1) |
+| dvPG-400-CDP-BKP-VMK | 400 | Backup / CDP VMkernel (vmk2) |
+| dvPG-500-PROD | 500 | Production VM traffic |
+
+> Management traffic (vmk0) runs on vSwitch0, not the vDS. This is intentional —
+> keeping management on the standard switch ensures host accessibility survives
+> any vDS misconfiguration.
+
+---
+
+### VMkernel Port Assignment
+
+| VMkernel | Switch | Purpose | Port Group | Services Enabled |
+|---|---|---|---|---|
+| vmk0 | vSwitch0 | Management | vSwitch0 default | Management traffic |
+| vmk1 | GEBTMVDS0001 | vMotion | dvPG-200-VMOT-VMK | vMotion |
+| vmk2 | GEBTMVDS0001 | Backup / CDP | dvPG-400-CDP-BKP-VMK | Default |
+
+---
+
+### VLAN Naming
+
+VLANs use the site prefix followed by the VLAN ID. No sequential number —
+the VLAN ID itself is the unique identifier.
+
+| VLAN Name | VLAN ID | Purpose |
+|---|---|---|
+| GEBTM_VLAN_100 | 100 | Management |
+| GEBTM_VLAN_200 | 200 | vMotion |
+| GEBTM_VLAN_400 | 400 | Backup / CDP |
+| GEBTM_VLAN_500 | 500 | Production VM traffic |
+
+> VLAN IDs are standardized across all sites — the same VLAN number means
+> the same purpose at every plant. Only the site prefix changes.
+
+---
+
 
 ## Storage LUNs / Datastores
 
@@ -231,3 +283,4 @@ A complete GEBTM site deployment would include:
 | GEBTMFW0002 | FortiGate 200F | MDC2 |
 | GEBTMCLS0001 | vCenter cluster | MDC1 production |
 | GEBTMCLS0002 | vCenter cluster | MDC2 DR |
+| GEBTMVDS0001 | vSphere Distributed Switch | MDC1 |

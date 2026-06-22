@@ -47,6 +47,7 @@ with synchronous storage replication running continuously.
 ```
 ├── docs/
 │   ├── architecture-overview.md        # Full narrative of the design
+│   ├── backup-policy.md                # Backup Policy 
 │   ├── network-design.md               # VLAN table, switch topology, FortiGate HA
 │   ├── storage-design.md               # LUN layout, replication, HBA path policy
 │   ├── veeam-cdp-design.md             # CDP policy design — MES, EDI, SQL protection

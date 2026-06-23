@@ -188,7 +188,7 @@ failover event.
 | PLANT_LUN_PROD_00 (replica) | VMFS 6 | Replicated from MDC1 |
 | PLANT_LUN_PROD_01 (replica) | VMFS 6 | Replicated from MDC1 |
 | PLANT_LUN_INFRA (replica) | VMFS 6 | Replicated from MDC1 |
-| PLANT_LUN_FS (replica) | VMFS 6 | Replicated from MDC1 |
+| PLANT_LUN_FS (replica) | VMFS 6 | No Replication |
 
 ### Independent CDP Volumes (always read/write)
 Created directly on MDC2 PowerStore. Not part of any replication relationship.
